@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -28,13 +31,13 @@ public class Vendor {
 	private String price;
 	private String service_name;
 	
-
+	@JsonManagedReference(value = "vendor")
 	 @OneToMany(mappedBy="vendor",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	    private List<Orders> OrderList = new ArrayList<>();
 
 	
 	
-	
+	 @JsonIdentityReference(alwaysAsId = true)
 	public List<Orders> getOrderList() {
 		return OrderList;
 	}

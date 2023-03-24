@@ -2,6 +2,11 @@ package com.lifejourney.Model;
 
 import java.sql.Date;
 
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -23,13 +28,11 @@ public class Orders {
 	private Date date;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-	 @JsonIgnore
+    @JoinColumn(name = "user_id",referencedColumnName="user_id", nullable = false)
     private User user;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vendor_id", nullable = false)
-	 @JsonIgnore
+    @JoinColumn(name = "vendor_id",referencedColumnName="vendor_id", nullable = false)
     private Vendor vendor;
 
 	public String getOrder_id() {
@@ -51,18 +54,22 @@ public class Orders {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+	@JsonBackReference(value = "user")
+	@JsonIdentityReference(alwaysAsId = true)
 	public User getUser() {
 		return user;
 	}
 	public void setUser(User user) {
 		this.user = user;
 	}
-//	public Vendor getVendor() {
-//		return vendor;
-//	}
-//	public void setVendor(Vendor vendor) {
-//		this.vendor = vendor;
-//	}
+	@JsonBackReference(value = "vendor")
+	@JsonIdentityReference(alwaysAsId = true)
+	public Vendor getVendor() {
+		return vendor;
+	}
+	public void setVendor(Vendor vendor) {
+		this.vendor = vendor;
+	}
 	
 	
 }

@@ -4,6 +4,9 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -29,6 +32,7 @@ public class User {
 	private String mobile;
 	private String location;
 	
+	@JsonManagedReference(value = "user")
 	 @OneToMany(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	    private List<Orders> OrderList = new ArrayList<>();
 
@@ -87,6 +91,8 @@ public class User {
 	public void setLocation(String location) {
 		this.location = location;
 	}
+	
+	@JsonIdentityReference(alwaysAsId = true)
 	public List<Orders> getOrderList() {
 		return OrderList;
 	}
